@@ -8,13 +8,16 @@
         </a>
 
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">run</a></li>
+            <li class="nav-item" @click="open"><a href="#" class="nav-link active" aria-current="page">run</a></li>
 
         </ul>
     </header>
 </template>
 
 <script setup lang="ts">
+const open =() => {
+    console.log("hello")
+}
 </script>
 <style>
 .bd-placeholder-img {

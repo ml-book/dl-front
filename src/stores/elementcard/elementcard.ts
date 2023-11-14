@@ -15,31 +15,31 @@ export const useCardStore = defineStore('elementCard', {
                     useroption: 0,
                     options: [
                         {
-                            name: "SVM",opt:0, args: { kernal: ["default","linear","ploy"],depth:[1,2,3] }
+                            name: "SVM",opt:{kernal:0,depth:0}, args: { kernal: ["default","linear","ploy"],depth:[1,2,3] }
                         },
                         {
-                            name: "d_tree", opt:1,args: { depth: [5,10,20,30] }
+                            name: "d_tree", opt:{depth:0},args: { depth: [5,10,20,30] }
                         },
                         {
-                            name: "KNN", opt:2,args: { cluster: [3,5,7,9] }
+                            name: "KNN", opt:{cluster:0},args: { cluster: [3,5,7,9] }
                     }]
                 },
                 {  
                     title: "数据集",
                     useroption: 1,
                     options: [
-                        { name: "红酒", args: {} },
-                        { name: "鸢尾花", args: {} },
-                        { name: "波士顿", args: {} }
+                        { name: "红酒", opt:{},args: {} },
+                        { name: "鸢尾花", opt:{},args: {} },
+                        { name: "波士顿", opt:{},args: {} }
                     ]
                 },
                 {  
                     title: "分割器",
                     useroption: 1,
                     options: [
-                        { name: "红酒", args: {} },
-                        { name: "鸢尾花", args: {} },
-                        { name: "波士顿", args: {} }
+                        { name: "红酒",opt:{}, args: {} },
+                        { name: "鸢尾花", opt:{},args: {} },
+                        { name: "波士顿", opt:{},args: {} }
                     ]
                 }
             ],
@@ -85,3 +85,7 @@ export const useCardStore = defineStore('elementCard', {
         
     }
 })  
+export const currentOption = ref('');
+export const currentArgs = ref({});
+export const selectedopt = ref({});
+export const selectedArgs = ref({});

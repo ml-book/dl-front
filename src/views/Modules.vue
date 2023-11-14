@@ -13,7 +13,7 @@
           :name="`option_${cardIndex}`"
           v-model="card.useroption"
           :label="option.name"
-          @change="openPopup(card.title, option.name, option.args)"
+          @change="openPopup(card.title, option.name,option.opt, option.args)"
         ></el-radio>
       </div>
     </el-card>
@@ -24,7 +24,8 @@
       <p v-if="currentArgs && Object.keys(currentArgs).length > 0">
         <p v-for="(argopts,argname) in currentArgs">
         {{ argname }}:
-        <el-select v-model="selectedArgs" placeholder="请选择参数">
+        
+        <el-select v-model="selectedopt[argname]" placeholder="请选择参数">
           <!-- 
           label	这是给用户看的
           value	点击某个label(option)之后，将对应的值给v-model绑定的值model
@@ -47,51 +48,23 @@
 </template>
   
 <script setup lang="ts">
-const value = ref('')
-const value2 = ref('')
-const value3 = ref('')
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
 
 ////
-import { useCardStore } from "@/stores/elementcard/elementcard";
+import { useCardStore,currentOption, currentArgs,selectedopt,selectedArgs} from "@/stores/elementcard/elementcard";
 import { ref, computed } from 'vue';
 
 
 const cardStore = useCardStore();
 const cardStoreData = computed(() => cardStore.receiveData);
-
 const dialogVisible = ref(false);
-const currentOption = ref('');
-const currentArgs = ref({});
-const selectedArgs = ref({});
 
-const openPopup = (cardTitle: string, option: string, args: Record<string, any>) => {
+const openPopup = (cardTitle: string, option: string, opt:Record<string,any>,args: Record<string, any>) => {
   currentOption.value = option;
   currentArgs.value = args;
   dialogVisible.value = true;
   console.log("openPopup函数执行")
-  selectedArgs.value = args.keys;
+  selectedopt.value = opt;
+  selectedArgs.value = args;
 };
 
 const submitArgs = () => {
@@ -99,8 +72,8 @@ const submitArgs = () => {
     const cardIndex = cardStoreData.value.findIndex(card => card.title === currentOption.value);
     if (cardIndex !== -1) {
       const card = cardStoreData.value[cardIndex];
-      cardStore.updateSendData(currentOption.value, card.options[card.useroption].name, { args: selectedArgs.value });
-
+      cardStore.updateSendData(currentOption.value, card.options[card.useroption].name, { args: selectedopt.value });
+      console.log(currentOption.value, card.options[card.useroption].name, { args: selectedopt.value });
     }
   }
   dialogVisible.value = false;
