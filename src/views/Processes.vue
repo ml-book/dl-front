@@ -1,49 +1,54 @@
 <template>
-    <div ref="chart" style="width: 600px; height: 400px;"></div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref, onMounted, nextTick } from 'vue';
-  import * as echarts from 'echarts';
-  const chartData = ref([
-    { value: 335, name: 'Category 1' },
-    { value: 310, name: 'Category 2' },
-    { value: 234, name: 'Category 3' },
-    { value: 135, name: 'Category 4' },
-    { value: 1548, name: 'Category 5' }
-  ]);
-  
-  const chartRef = ref(null);
-  
-  onMounted(async () => {
-    await nextTick(); // 等待组件渲染完成
-  
-    let myChart = echarts.init(chartRef.value);
-  
-    let option = {
-      title: {
-        text: 'ECharts Demo'
+  <div id="mountNode"></div>
+</template>
+
+<script setup lang="ts">
+import { defineComponent, onMounted } from 'vue'
+import G6, { type GraphData, type TreeGraphData } from "@antv/g6";
+
+import data from '@/stores/processes'
+
+
+onMounted(() => {
+  g6(data)
+})
+
+const g6 = (data: GraphData | TreeGraphData | undefined) => {
+  // 图实例化，至少需要为图设置挂载容器、宽、高
+  const graph = new G6.Graph({
+    container: 'mountNode', // 指定挂载容器
+    width: 800, // 图的宽度
+    height: 500, // 图的高度
+    // 默认节点集
+    defaultNode: {
+      shape: "circle",
+      size: [100],
+      color: "#5B8FF9",
+      style: {
+        fill: "#9EC9FF",
+        lineWidth: 3
       },
-      tooltip: {},
-      legend: {
-        data: ['Category']
-      },
-      xAxis: {
-        data: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5']
-      },
-      yAxis: {},
-      series: [{
-        name: 'Category',
-        type: 'bar',
-        data: chartData.value.map(item => item.value)
-      }]
-    };
-  
-    myChart.setOption(option);
+      labelCfg: {
+        style: {
+          fill: "#fff",
+          fontSize: 20
+        }
+      }
+    },
+    // 默认边集
+    defaultEdge: {
+      style: {
+        stroke: "#e2e2e2"
+      }
+    }
   });
-  </script>
-  
-  <style>
-  /* 可以添加一些样式 */
-  </style>
-  
+  // 数据加载和图的渲染
+  graph.data(data);
+  graph.render();
+}
+
+
+</script>
+
+<style lang="scss" scoped>
+</style>

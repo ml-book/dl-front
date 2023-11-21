@@ -62,7 +62,7 @@ const openPopup = (cardTitle: string, option: string, opt:Record<string,any>,arg
   currentOption.value = option;
   currentArgs.value = args;
   dialogVisible.value = true;
-  console.log("openPopup函数执行")
+  // console.log("openPopup函数执行")
   selectedopt.value = opt;
   selectedArgs.value = args;
 };
