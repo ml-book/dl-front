@@ -1,5 +1,6 @@
 <!-- src/views/Modules.vue -->
 <template>
+  <!-- 卡片部分 -->
   <div class="card-container">
     <el-card class="card" v-for="(card, cardIndex) in cardStoreData" :key="cardIndex">
       <div class="card-title">
@@ -18,8 +19,9 @@
       </div>
     </el-card>
   </div>
+  <!-- 弹出窗逻辑 -->
   <div>
-    <el-dialog title="参数选择" v-model="dialogVisible">
+    <el-dialog title="参数选择" v-model="dialogVisible" @close="onDialogClose">
       <p>当前选项：{{ currentOption }}</p>
       <p v-if="currentArgs && Object.keys(currentArgs).length > 0">
         <p v-for="(argopts,argname) in currentArgs">
@@ -50,7 +52,8 @@
 <script setup lang="ts">
 
 ////
-import { useCardStore,currentOption, currentArgs,selectedopt,selectedArgs} from "@/stores/elementcard/elementcard";
+import { useCardStore,currentTitle,currentOption, currentArgs,selectedopt,selectedArgs} from "@/stores/elementcard/elementcard";
+import { valueEquals } from "element-plus";
 import { ref, computed } from 'vue';
 
 
@@ -59,6 +62,7 @@ const cardStoreData = computed(() => cardStore.receiveData);
 const dialogVisible = ref(false);
 
 const openPopup = (cardTitle: string, option: string, opt:Record<string,any>,args: Record<string, any>) => {
+  currentTitle.value=cardTitle;
   currentOption.value = option;
   currentArgs.value = args;
   dialogVisible.value = true;
@@ -68,16 +72,28 @@ const openPopup = (cardTitle: string, option: string, opt:Record<string,any>,arg
 };
 
 const submitArgs = () => {
+  console.log("submitArgs函数运行")
   if (currentOption.value && selectedArgs.value !== undefined) {
-    const cardIndex = cardStoreData.value.findIndex(card => card.title === currentOption.value);
+    const cardIndex = cardStoreData.value.findIndex(card => card.title === currentTitle.value);
+    
     if (cardIndex !== -1) {
       const card = cardStoreData.value[cardIndex];
-      cardStore.updateSendData(currentOption.value, card.options[card.useroption].name, { args: selectedopt.value });
-      console.log(currentOption.value, card.options[card.useroption].name, { args: selectedopt.value });
+      cardStore.updateArgs(currentTitle.value, currentOption.value, { args: selectedopt.value });
+      // console.log()
+      // const argsValue=Reflect.get(selectedopt.value,'__v_raw')
+      // delete argsValue.Prototype
+      console.log(currentTitle.value,currentOption.value,  { args: Reflect.get(selectedopt.value,'__v_raw')});
+      
     }
   }
   dialogVisible.value = false;
 };
+const onDialogClose = () => {
+    console.log('Dialog is closing...');
+    // 执行你想要触发的逻辑
+    // 比如提交数据或者清除某些状态等
+    submitArgs();
+  };
 </script>
 
 <style scoped>

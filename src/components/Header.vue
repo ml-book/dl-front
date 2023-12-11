@@ -1,3 +1,4 @@
+<!-- src/components/Header.vue-->
 <template>
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -15,8 +16,16 @@
 </template>
 
 <script setup lang="ts">
+import {ref,computed,toRaw} from 'vue'
+import { useCardStore} from "@/stores/elementcard/elementcard";
+const cardStore = useCardStore();
+const cardSendData = computed(() => cardStore.sendData);
 const open =() => {
-    console.log("hello")
+
+    console.log(Reflect.get(cardSendData.value,'__v_raw'))
+    // console.log(typeof cardStore.getSendData()["数据集"])
+    console.log(toRaw(cardStore.getSendData()))
+
 }
 </script>
 <style>
