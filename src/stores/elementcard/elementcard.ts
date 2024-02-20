@@ -40,7 +40,7 @@ import type { ISendData } from '@/stores/elementcard/types'
                     "数据集": { option: "红酒", args: {} }
                 },
                 
-
+   
             }),
         actions: {
             // 更新 
@@ -97,7 +97,6 @@ import type { ISendData } from '@/stores/elementcard/types'
             //更新要发送的数据 并将数据发送给后端
             getSendData(){
                 // 先做同步 opt和senddata是同步的
-                //
                 return toRaw(this.sendData);
             },
         }

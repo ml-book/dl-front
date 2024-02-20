@@ -14,7 +14,7 @@
           :name="`option_${cardIndex}`"
           v-model="card.useroption"
           :label="option.name"
-          @change="openPopup(card.title, option.name,option.opt, option.args)"
+          @change="onDialogOpen(card.title, option.name,option.opt, option.args)"
         ></el-radio>
       </div>
     </el-card>
@@ -61,7 +61,7 @@ const cardStore = useCardStore();
 const cardStoreData = computed(() => cardStore.receiveData);
 const dialogVisible = ref(false);
 
-const openPopup = (cardTitle: string, option: string, opt:Record<string,any>,args: Record<string, any>) => {
+const onDialogOpen = (cardTitle: string, option: string, opt:Record<string,any>,args: Record<string, any>) => {
   currentTitle.value=cardTitle;
   currentOption.value = option;
   currentArgs.value = args;
@@ -75,7 +75,7 @@ const submitArgs = () => {
   console.log("submitArgs函数运行")
   if (currentOption.value && selectedArgs.value !== undefined) {
     const cardIndex = cardStoreData.value.findIndex(card => card.title === currentTitle.value);
-    
+     
     if (cardIndex !== -1) {
       const card = cardStoreData.value[cardIndex];
       cardStore.updateArgs(currentTitle.value, currentOption.value, { args: selectedopt.value });
@@ -90,8 +90,6 @@ const submitArgs = () => {
 };
 const onDialogClose = () => {
     console.log('Dialog is closing...');
-    // 执行你想要触发的逻辑
-    // 比如提交数据或者清除某些状态等
     submitArgs();
   };
 </script>

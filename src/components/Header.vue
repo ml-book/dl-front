@@ -16,13 +16,16 @@
 </template>
 
 <script setup lang="ts">
-import {ref,computed,toRaw} from 'vue'
+import {ref,computed,toRaw} from 'vue';
 import { useCardStore} from "@/stores/elementcard/elementcard";
+import {onClickConnect} from '@/services/communication/index';
+
 const cardStore = useCardStore();
 const cardSendData = computed(() => cardStore.sendData);
 const open =() => {
+    onClickConnect()
 
-    console.log(Reflect.get(cardSendData.value,'__v_raw'))
+    // console.log(Reflect.get(cardSendData.value,'__v_raw'))
     // console.log(typeof cardStore.getSendData()["数据集"])
     console.log(toRaw(cardStore.getSendData()))
 

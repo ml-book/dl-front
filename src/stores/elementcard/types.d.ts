@@ -13,3 +13,22 @@ export interface ISendData{
         args: Record<string, any>;
       };
 }
+
+
+interface Node {
+    id: string;
+    label: string;
+  
+  }
+  
+interface Edge {
+    source: string;
+    target: string;
+    label: string;
+    // ... 其他属性
+  }
+  
+export interface ReceivedNodes {
+    nodes: Node[];
+    edges: Edge[];
+  }

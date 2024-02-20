@@ -9,7 +9,7 @@ import router from '@/router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import "@/stores/elementcard/elementcard.ts"
-
+import {onClickConnect} from '@/services/communication/index';
 
 const app = createApp(App)
 
