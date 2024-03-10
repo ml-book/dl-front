@@ -1,6 +1,7 @@
 interface IOptionData {
     name: string
-    args: object
+    args: {[key:string]:any}
+    opt:{[key:string]:any}
 }
 
 export interface IReceivedData {
@@ -8,10 +9,7 @@ export interface IReceivedData {
     options: Array<IOptionData>
 }
 export interface ISendData{
-    [title: string]: {
-        option: string;
-        args: Record<string, any>;
-      };
+    title: any
 }
 
 

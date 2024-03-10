@@ -9,8 +9,7 @@
         </a>
 
         <ul class="nav nav-pills">
-            <li class="nav-item" @click="open"><a href="#" class="nav-link active" aria-current="page">run</a></li>
-
+            <li class="nav-item" @click="clickButton"><a href="#" class="nav-link active" aria-current="page">run</a></li>
         </ul>
     </header>
 </template>
@@ -18,17 +17,34 @@
 <script setup lang="ts">
 import {ref,computed,toRaw} from 'vue';
 import { useCardStore} from "@/stores/elementcard/elementcard";
-import {onClickConnect} from '@/services/communication/index';
 
 const cardStore = useCardStore();
 const cardSendData = computed(() => cardStore.sendData);
 const open =() => {
-    onClickConnect()
 
     // console.log(Reflect.get(cardSendData.value,'__v_raw'))
     // console.log(typeof cardStore.getSendData()["数据集"])
+    console.log("要传过去的参数")
     console.log(toRaw(cardStore.getSendData()))
 
+}
+
+import {RunButton, CSManager} from '@/services/communication/Register'
+
+const clickButton = () => {
+  let button = new RunButton()
+  // 实际上应该传递前端选择的param_config。这里为了方便直接用后端传过来的param_config。
+  if (toRaw(cardStore.getSendData()) === null){
+    console.error('"execute_config" is null')
+  }
+  else{
+    const obj = cardStore.getSendData();
+    console.log("传递的参数")
+    console.log(obj)
+    
+    button.run(JSON.stringify(obj), "server0/executer")
+    // button.run(obj, "server0/executer")
+  }
 }
 </script>
 <style>

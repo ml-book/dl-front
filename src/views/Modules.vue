@@ -72,7 +72,7 @@ const onDialogOpen = (cardTitle: string, option: string, opt:Record<string,any>,
 };
 
 const submitArgs = () => {
-  console.log("submitArgs函数运行")
+  // console.log("submitArgs函数运行")
   if (currentOption.value && selectedArgs.value !== undefined) {
     const cardIndex = cardStoreData.value.findIndex(card => card.title === currentTitle.value);
      
@@ -89,7 +89,7 @@ const submitArgs = () => {
   dialogVisible.value = false;
 };
 const onDialogClose = () => {
-    console.log('Dialog is closing...');
+    // console.log('Dialog is closing...');
     submitArgs();
   };
 </script>

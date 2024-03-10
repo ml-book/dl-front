@@ -9,7 +9,9 @@ import router from '@/router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import "@/stores/elementcard/elementcard.ts"
-import {onClickConnect} from '@/services/communication/index';
+import {RunButton, CSManager} from '@/services/communication/Register'
+
+CSManager.get_instance().connect()
 
 const app = createApp(App)
 
